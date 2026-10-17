@@ -178,9 +178,23 @@ def stage_exact():
                         brute=len(scanned), ok=got == exp, matches_brute=matches_brute))
         ok += got == exp
         brute_ok += matches_brute
+    quoted_phrase_checks = []
+    for query in ('"crude oil"', '"central bank"', '"bank of japan"'):
+        got_ids, _ = e.search(query)
+        got = {e.names[d] for d in got_ids}
+        scanned = brute_force(query, texts)
+        quoted_phrase_checks.append(dict(
+            query=query,
+            indexed=len(got),
+            brute=len(scanned),
+            matches_brute=got == scanned,
+        ))
     R["exact"] = dict(rows=res, passed=ok, total=len(rows),
                       brute_force_passed=brute_ok, brute_force_total=len(rows),
-                      brute_force_failures=[r for r in res if not r["matches_brute"]])
+                      brute_force_failures=[r for r in res if not r["matches_brute"]],
+                      quoted_phrase_checks=quoted_phrase_checks,
+                      quoted_phrase_passed=sum(r["matches_brute"] for r in quoted_phrase_checks),
+                      quoted_phrase_total=len(quoted_phrase_checks))
     # skip pointers
     ix = e.main
     pairs = [("said", "opec"), ("the", "tanker"), ("oil", "opec"), ("trade", "deficit"), ("bank", "yen"),

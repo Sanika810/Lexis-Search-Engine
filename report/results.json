@@ -338,7 +338,29 @@
   "total": 25,
   "brute_force_passed": 25,
   "brute_force_total": 25,
-  "brute_force_failures": []
+  "brute_force_failures": [],
+  "quoted_phrase_checks": [
+   {
+    "query": "\"crude oil\"",
+    "indexed": 231,
+    "brute": 231,
+    "matches_brute": true
+   },
+   {
+    "query": "\"central bank\"",
+    "indexed": 326,
+    "brute": 326,
+    "matches_brute": true
+   },
+   {
+    "query": "\"bank of japan\"",
+    "indexed": 126,
+    "brute": 126,
+    "matches_brute": true
+   }
+  ],
+  "quoted_phrase_passed": 3,
+  "quoted_phrase_total": 3
  },
  "skips": [
   {
@@ -485,7 +507,7 @@
   "deleted_was_present": true,
   "merger_count_before": 375,
   "merger_count_after": 376,
-  "add_seconds": 0.0016485999985889066,
+  "add_seconds": 0.002349900001718197,
   "rebuild_seconds": 40.50398789999963
  },
  "spell": {

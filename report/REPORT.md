@@ -37,7 +37,8 @@ The corpus contains 10,788 documents, 1,468,154 analyzed token occurrences, and 
 | Check | Result |
 |---|---:|
 | Supplied Boolean queries | 10/10 passed |
-| Supplied phrase queries | 7/7 passed |
+| Supplied queries labeled `phrase` (unquoted; implicit AND) | 7/7 passed |
+| Additional explicitly quoted phrase queries | 3/3 matched brute-force scan |
 | Supplied wildcard queries | 4/4 passed |
 | Supplied proximity queries | 4/4 passed |
 | **All supplied exact queries** | **25/25 passed** |
@@ -46,9 +47,9 @@ The corpus contains 10,788 documents, 1,468,154 analyzed token occurrences, and 
 | Phrase query over newly added document | Passed |
 | Deleted document excluded from results after reopening index | Passed |
 
-For an independent check, the exact stage also tokenizes every lowercased corpus document and evaluates each query directly against those token lists without reading postings. The independent scan and indexed engine agreed on all 25 supplied queries (10 Boolean, 7 labeled phrase, 4 wildcard, and 4 proximity), and both agreed with every expected document-ID set. Three additional explicitly quoted corpus phrase queries also matched the brute-force scan: `"crude oil"` (231 documents), `"central bank"` (326), and `"bank of japan"` (126). The seven queries labeled `phrase` in the supplied TSV are unquoted two-word queries, so they are evaluated as implicit-AND queries by the query grammar; the added quoted checks exercise contiguous phrase matching directly.
+For an independent check, the exact stage tokenizes every lowercased corpus document and evaluates each query directly against those token lists without reading postings. The independent scan and indexed engine agreed on all 25 supplied queries, and both agreed with every expected document-ID set. The seven entries labeled `phrase` in the supplied TSV are unquoted two-word queries, so the supplied cases exercise implicit AND, not contiguous phrase matching. To verify actual contiguous phrase behavior, the exact stage also runs three explicit quoted queries against both the index and the scan: `"crude oil"` (231 documents), `"central bank"` (326), and `"bank of japan"` (126). These are recorded as `exact.quoted_phrase_checks` in `results.json`; all three matched.
 
-For spelling, all 60 misspelled inputs were out of vocabulary. The intended correction was ranked first for 50/50 one-typo terms and 9/10 two-typo terms; all 60 intended corrections appeared in the top three. The top-ranked miss for `prokkects` was `prospects`; `projects` appeared second.
+For spelling, all 60 misspelled inputs were out of vocabulary. Top-1 accuracy was 50/50 (100%) for one-typo terms and 9/10 (90%) for two-typo terms, giving 59/60 overall (98.3%). Top-3 accuracy was 50/50 and 10/10 respectively, or 60/60 overall. The sole top-1 miss was `prokkects`: `prospects` ranked first and the accepted correction `projects` ranked second. The assignment requires suggestions for out-of-vocabulary terms, not perfect top-1 accuracy; these observed accuracy figures are reported without claiming perfection.
 
 ## 3. Vocabulary statistics
 
@@ -137,7 +138,7 @@ Gamma coding performed best for the frequent-term sample, while the rare-term sa
 
 ## 7. Ranked retrieval
 
-The ranker was tuned on the 40 training queries only. The best training configuration used the stemmed index with sublinear term frequency, idf, length normalization, and separate title/body zones enabled; the title-zone weight was `gt=0.1`. Test metrics below were then computed on the 40 held-out test queries.
+The ranker configuration was selected using the 40 training queries only. The best training configuration used the stemmed index with sublinear term frequency, idf, length normalization, and separate title/body zones enabled; the title-zone weight was `gt=0.1`. The configuration-selection score was training MAP 0.5593. Test metrics below were then computed on the 40 held-out test queries; test results did not select or change the configuration.
 
 | System | Split | MAP | Precision@10 | NDCG@10 |
 |---|---|---:|---:|---:|
@@ -165,7 +166,7 @@ Columns correspond to recall levels 0.0 through 1.0 in increments of 0.1.
 
 ![Test-set precision-recall curves](pr_curve.png)
 
-The paired t-test comparing per-query test AP for the best system against the raw-tf baseline gave \(p=8.94\times10^{-12}\). The test set was not used to select the configuration.
+The paired t-test comparing per-query test AP for the best system against the raw-tf baseline gave \(p=8.94\times10^{-12}\). This is a post-evaluation comparison; the test set was not used to select the configuration.
 
 ## 8. Efficiency and pruning
 
@@ -197,16 +198,33 @@ Each ablation is evaluated on the test queries against the training-selected bes
 | Length normalization off | 0.4624 | -0.0363 | 0.2468 | 0.6559 |
 | Zone weighting off | 0.5122 | +0.0134 | 0.0024 | 0.0008 |
 
-The selected configuration already has stop-word removal disabled, so disabling it again is necessarily a no-op; the table also reports enabling stop-word removal as the actual one-factor change. The test-set ablation suggests that removing zone weighting improved MAP on this split. The chosen configuration remains the one selected on training data; test results were not used to retune it.
+The selected configuration already has stop-word removal disabled, so disabling it again is necessarily a no-op; the table also reports enabling stop-word removal as the actual one-factor change. The test-set ablation suggests that removing zone weighting improved MAP on this split. This is reported as a post-hoc ablation result, not used to revise the training-selected configuration.
 
 ## 10. Limitations and interpretation
 
-1. Exact-query verification independently scans all 10,788 documents for each of the 25 supplied queries. This establishes agreement for the supplied cases, not for every possible query string.
+1. Exact-query verification independently scans all 10,788 documents for each supplied query and includes three explicitly quoted phrase checks. This establishes agreement for those cases, not every possible query string.
 2. The spelling checker achieved top-3 accuracy of 60/60, but top-1 accuracy was 59/60 overall.
 3. Construction, memory, and latency numbers depend on the Windows machine, Python build, process scheduling, and filesystem cache. Peak values are `tracemalloc` measurements and should not be read as total operating-system process memory.
 4. The corpus and textbook RCV1 reference are different datasets. The Heaps comparison is informative, not an exact reproduction target.
 5. The report gives generated measurements; design choices and implementation tradeoffs should be defended in the accompanying presentation or discussion.
 
-## 11. Conclusion
+## 11. Reproducing the measurements
+
+From the repository root, install the pinned dependencies and run stages sequentially (do not run stages concurrently because they share output directories):
+
+```powershell
+py -3.13 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r .\requirements.txt
+.\.venv\Scripts\python.exe .\run_all.py build
+.\.venv\Scripts\python.exe .\run_all.py exact
+.\.venv\Scripts\python.exe .\run_all.py construct
+.\.venv\Scripts\python.exe .\run_all.py compress
+.\.venv\Scripts\python.exe .\run_all.py vocab
+.\.venv\Scripts\python.exe .\run_all.py rank
+```
+
+The corpus and TSV inputs must be placed under `lexis_dataset\` as described in the README. Each stage writes its measurements to `report\results.json`; the tables in this report are transcribed from that saved output. Runtime and memory measurements may vary across machines. The report's exact-query and quoted-phrase checks can be rerun with `.\.venv\Scripts\python.exe .\run_all.py exact`; verify `exact.brute_force_passed == exact.brute_force_total == 25` and `exact.quoted_phrase_passed == exact.quoted_phrase_total == 3`.
+
+## 12. Conclusion
 
 The implementation meets the assignment's core feature checklist in the supplied evaluation: four-shard construction, SPIMI and BSBI block construction, compressed positional postings, Boolean/phrase/wildcard/proximity search, spelling suggestions, ranked retrieval, pruning measurements, and persistent add/delete behavior are present. All 25 supplied exact-query cases passed both the independent corpus scan and the expected-result comparison. The strongest test-set ranking result was the training-selected zoned tf-idf system, with MAP 0.4988 and precision@10 0.6325. The saved experiment artifacts support the required analysis while also exposing limitations in spelling top-1 accuracy and pruning overlap.
