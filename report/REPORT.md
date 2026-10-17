@@ -3,7 +3,10 @@
 **Course:** CSL 436, Information Retrieval
 **Term:** Winter 2026
 **Slot:** F
-**Group members:** *Add the names of all group members*
+**Group members:** 
+*Anagha Choudhary - BT23CSE034*
+*Sanika Budhe - BT23CSE036*
+*Unnati Dhage - BT23CSE117*
 **Dataset:** Reuters-21578 collection, 10,788 articles
 **Evaluation environment:** Windows, Python 3.13.5; 16 logical processors reported by Python
 
