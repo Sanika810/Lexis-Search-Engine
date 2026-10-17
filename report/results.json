@@ -1,0 +1,1071 @@
+{
+ "build": {
+  "raw": {
+   "nterms": 30952,
+   "postings_bytes": 3725907,
+   "plain_bytes": 1978050,
+   "dict_bytes": 221938,
+   "dict_raw_bytes": 488374,
+   "n_postings": 822333,
+   "n_occurrences": 1468154,
+   "shards": 4,
+   "algo": "spimi",
+   "mem_limit": 2097152,
+   "stem": false,
+   "stop": false,
+   "blocks": 12,
+   "block_bytes": 4588308,
+   "seconds": 40.50398789999963,
+   "seconds_shards": 38.95407419999901,
+   "ndocs": 10788,
+   "ntokens": 1468154
+  },
+  "stem_stop": {
+   "nterms": 23350,
+   "postings_bytes": 2787112,
+   "plain_bytes": 1542229,
+   "dict_bytes": 161389,
+   "dict_raw_bytes": 345005,
+   "n_postings": 642613,
+   "n_occurrences": 1024696,
+   "shards": 4,
+   "algo": "spimi",
+   "mem_limit": 2097152,
+   "stem": true,
+   "stop": true,
+   "blocks": 8,
+   "block_bytes": 3234942,
+   "seconds": 5.378819800000201,
+   "seconds_shards": 3.9041170999989845,
+   "ndocs": 10788,
+   "ntokens": 1468154
+  },
+  "stem": {
+   "nterms": 23387,
+   "postings_bytes": 3581791,
+   "plain_bytes": 1847545,
+   "dict_bytes": 161833,
+   "dict_raw_bytes": 345455,
+   "n_postings": 790248,
+   "n_occurrences": 1468154,
+   "shards": 4,
+   "algo": "spimi",
+   "mem_limit": 2097152,
+   "stem": true,
+   "stop": false,
+   "blocks": 9,
+   "block_bytes": 4033117,
+   "seconds": 5.442575400000351,
+   "seconds_shards": 3.851869699999952,
+   "ndocs": 10788,
+   "ntokens": 1468154
+  },
+  "stop": {
+   "nterms": 30889,
+   "postings_bytes": 2922288,
+   "plain_bytes": 1665129,
+   "dict_bytes": 221211,
+   "dict_raw_bytes": 487611,
+   "n_postings": 671209,
+   "n_occurrences": 1024696,
+   "shards": 4,
+   "algo": "spimi",
+   "mem_limit": 2097152,
+   "stem": false,
+   "stop": true,
+   "blocks": 8,
+   "block_bytes": 3650892,
+   "seconds": 4.513898799999879,
+   "seconds_shards": 3.129253900002368,
+   "ndocs": 10788,
+   "ntokens": 1468154
+  }
+ },
+ "exact": {
+  "rows": [
+   {
+    "id": "b01",
+    "q": "oil AND opec",
+    "type": "boolean",
+    "n": 120,
+    "got": 120,
+    "brute": 120,
+    "ok": true,
+    "matches_brute": true
+   },
+   {
+    "id": "b02",
+    "q": "wheat AND corn AND NOT soviet",
+    "type": "boolean",
+    "n": 66,
+    "got": 66,
+    "brute": 66,
+    "ok": true,
+    "matches_brute": true
+   },
+   {
+    "id": "b03",
+    "q": "(gold OR silver) AND price",
+    "type": "boolean",
+    "n": 44,
+    "got": 44,
+    "brute": 44,
+    "ok": true,
+    "matches_brute": true
+   },
+   {
+    "id": "b04",
+    "q": "bank AND NOT (dollar OR yen)",
+    "type": "boolean",
+    "n": 1031,
+    "got": 1031,
+    "brute": 1031,
+    "ok": true,
+    "matches_brute": true
+   },
+   {
+    "id": "b05",
+    "q": "tanker AND (gulf OR iran)",
+    "type": "boolean",
+    "n": 26,
+    "got": 26,
+    "brute": 26,
+    "ok": true,
+    "matches_brute": true
+   },
+   {
+    "id": "b06",
+    "q": "coffee AND (brazil OR colombia) AND quota",
+    "type": "boolean",
+    "n": 29,
+    "got": 29,
+    "brute": 29,
+    "ok": true,
+    "matches_brute": true
+   },
+   {
+    "id": "b07",
+    "q": "sugar AND NOT export",
+    "type": "boolean",
+    "n": 149,
+    "got": 149,
+    "brute": 149,
+    "ok": true,
+    "matches_brute": true
+   },
+   {
+    "id": "b08",
+    "q": "merger OR takeover",
+    "type": "boolean",
+    "n": 589,
+    "got": 589,
+    "brute": 589,
+    "ok": true,
+    "matches_brute": true
+   },
+   {
+    "id": "b09",
+    "q": "dividend AND NOT quarterly",
+    "type": "boolean",
+    "n": 514,
+    "got": 514,
+    "brute": 514,
+    "ok": true,
+    "matches_brute": true
+   },
+   {
+    "id": "b10",
+    "q": "steel AND (japan OR korea) AND import",
+    "type": "boolean",
+    "n": 5,
+    "got": 5,
+    "brute": 5,
+    "ok": true,
+    "matches_brute": true
+   },
+   {
+    "id": "b11",
+    "q": "\"interest rates\"",
+    "type": "phrase",
+    "n": 239,
+    "got": 239,
+    "brute": 239,
+    "ok": true,
+    "matches_brute": true
+   },
+   {
+    "id": "b12",
+    "q": "\"trade deficit\"",
+    "type": "phrase",
+    "n": 173,
+    "got": 173,
+    "brute": 173,
+    "ok": true,
+    "matches_brute": true
+   },
+   {
+    "id": "b13",
+    "q": "\"federal reserve\"",
+    "type": "phrase",
+    "n": 215,
+    "got": 215,
+    "brute": 215,
+    "ok": true,
+    "matches_brute": true
+   },
+   {
+    "id": "b14",
+    "q": "\"central bank\"",
+    "type": "phrase",
+    "n": 326,
+    "got": 326,
+    "brute": 326,
+    "ok": true,
+    "matches_brute": true
+   },
+   {
+    "id": "b15",
+    "q": "\"crude oil\"",
+    "type": "phrase",
+    "n": 231,
+    "got": 231,
+    "brute": 231,
+    "ok": true,
+    "matches_brute": true
+   },
+   {
+    "id": "b16",
+    "q": "\"bank of japan\"",
+    "type": "phrase",
+    "n": 126,
+    "got": 126,
+    "brute": 126,
+    "ok": true,
+    "matches_brute": true
+   },
+   {
+    "id": "b17",
+    "q": "\"stock split\"",
+    "type": "phrase",
+    "n": 234,
+    "got": 234,
+    "brute": 234,
+    "ok": true,
+    "matches_brute": true
+   },
+   {
+    "id": "b18",
+    "q": "econom*",
+    "type": "wildcard",
+    "n": 872,
+    "got": 872,
+    "brute": 872,
+    "ok": true,
+    "matches_brute": true
+   },
+   {
+    "id": "b19",
+    "q": "agricultur*",
+    "type": "wildcard",
+    "n": 568,
+    "got": 568,
+    "brute": 568,
+    "ok": true,
+    "matches_brute": true
+   },
+   {
+    "id": "b20",
+    "q": "*port",
+    "type": "wildcard",
+    "n": 1639,
+    "got": 1639,
+    "brute": 1639,
+    "ok": true,
+    "matches_brute": true
+   },
+   {
+    "id": "b21",
+    "q": "pet*chem*",
+    "type": "wildcard",
+    "n": 23,
+    "got": 23,
+    "brute": 23,
+    "ok": true,
+    "matches_brute": true
+   },
+   {
+    "id": "b22",
+    "q": "economy /5 growth",
+    "type": "proximity",
+    "n": 16,
+    "got": 16,
+    "brute": 16,
+    "ok": true,
+    "matches_brute": true
+   },
+   {
+    "id": "b23",
+    "q": "oil /3 price",
+    "type": "proximity",
+    "n": 76,
+    "got": 76,
+    "brute": 76,
+    "ok": true,
+    "matches_brute": true
+   },
+   {
+    "id": "b24",
+    "q": "dollar /4 yen",
+    "type": "proximity",
+    "n": 93,
+    "got": 93,
+    "brute": 93,
+    "ok": true,
+    "matches_brute": true
+   },
+   {
+    "id": "b25",
+    "q": "interest /2 rates",
+    "type": "proximity",
+    "n": 245,
+    "got": 245,
+    "brute": 245,
+    "ok": true,
+    "matches_brute": true
+   }
+  ],
+  "passed": 25,
+  "total": 25,
+  "brute_force_passed": 25,
+  "brute_force_total": 25,
+  "brute_force_failures": []
+ },
+ "skips": [
+  {
+   "a": "said",
+   "b": "opec",
+   "dfa": 6784,
+   "dfb": 126,
+   "common": 119,
+   "none": 6627,
+   "s4": 2291,
+   "s16": 2120,
+   "s64": 4282,
+   "sqrt": 4861
+  },
+  {
+   "a": "the",
+   "b": "tanker",
+   "dfa": 6951,
+   "dfb": 35,
+   "common": 34,
+   "none": 6819,
+   "s4": 1896,
+   "s16": 960,
+   "s64": 1575,
+   "sqrt": 1865
+  },
+  {
+   "a": "oil",
+   "b": "opec",
+   "dfa": 1038,
+   "dfb": 126,
+   "common": 120,
+   "none": 1026,
+   "s4": 708,
+   "s16": 956,
+   "s64": 1039,
+   "sqrt": 1052
+  },
+  {
+   "a": "trade",
+   "b": "deficit",
+   "dfa": 1117,
+   "dfb": 378,
+   "common": 250,
+   "none": 1243,
+   "s4": 1306,
+   "s16": 1307,
+   "s64": 1260,
+   "sqrt": 1275
+  },
+  {
+   "a": "bank",
+   "b": "yen",
+   "dfa": 1338,
+   "dfb": 318,
+   "common": 156,
+   "none": 1499,
+   "s4": 1270,
+   "s16": 1449,
+   "s64": 1521,
+   "sqrt": 1542
+  },
+  {
+   "a": "wheat",
+   "b": "corn",
+   "dfa": 327,
+   "dfb": 209,
+   "common": 90,
+   "none": 443,
+   "s4": 508,
+   "s16": 467,
+   "s64": 449,
+   "sqrt": 464
+  },
+  {
+   "a": "gold",
+   "b": "silver",
+   "dfa": 229,
+   "dfb": 62,
+   "common": 49,
+   "none": 242,
+   "s4": 252,
+   "s16": 256,
+   "s64": 245,
+   "sqrt": 260
+  },
+  {
+   "a": "interest",
+   "b": "rates",
+   "dfa": 839,
+   "dfb": 563,
+   "common": 289,
+   "none": 1113,
+   "s4": 1266,
+   "s16": 1168,
+   "s64": 1128,
+   "sqrt": 1142
+  },
+  {
+   "a": "company",
+   "b": "merger",
+   "dfa": 2543,
+   "dfb": 375,
+   "common": 222,
+   "none": 2692,
+   "s4": 2159,
+   "s16": 2535,
+   "s64": 2732,
+   "sqrt": 2746
+  },
+  {
+   "a": "price",
+   "b": "coffee",
+   "dfa": 1025,
+   "dfb": 159,
+   "common": 36,
+   "none": 1146,
+   "s4": 965,
+   "s16": 1099,
+   "s64": 1164,
+   "sqrt": 1161
+  }
+ ],
+ "skip_table_check": true,
+ "positional": {
+  "positional": 3725907,
+  "plain": 1978050,
+  "dict": 221938,
+  "dict_raw": 488374,
+  "nterms": 30952,
+  "npost": 822333,
+  "nocc": 1468154
+ },
+ "updates": {
+  "added_found": [
+   "doc_new_1",
+   "doc_new_2"
+  ],
+  "new_in_merger": true,
+  "phrase_new": [
+   "doc_new_1"
+  ],
+  "deleted_gone": true,
+  "deleted_was_present": true,
+  "merger_count_before": 375,
+  "merger_count_after": 376,
+  "add_seconds": 0.0016485999985889066,
+  "rebuild_seconds": 40.50398789999963
+ },
+ "spell": {
+  "by_typos": {
+   "1": [
+    50,
+    50,
+    50
+   ],
+   "2": [
+    10,
+    9,
+    10
+   ]
+  },
+  "fails": [
+   [
+    "prokkects",
+    "projects",
+    [
+     "prospects",
+     "projects",
+     "propects"
+    ]
+   ]
+  ],
+  "oov_all": true
+ },
+ "construct": [
+  {
+   "algo": "spimi",
+   "limit": 262144,
+   "blocks": 121,
+   "block_bytes": 6494448,
+   "seconds": 7.3796541999981855,
+   "seconds_blocks": 3.4837720999967132,
+   "peak": 2249621,
+   "peak_merge": 14315952,
+   "index_bytes": 3947845
+  },
+  {
+   "algo": "spimi",
+   "limit": 524288,
+   "blocks": 50,
+   "block_bytes": 5630498,
+   "seconds": 5.678622899999027,
+   "seconds_blocks": 3.15442400000029,
+   "peak": 2777910,
+   "peak_merge": 13843919,
+   "index_bytes": 3947845
+  },
+  {
+   "algo": "spimi",
+   "limit": 1048576,
+   "blocks": 21,
+   "block_bytes": 4973779,
+   "seconds": 4.802438599999732,
+   "seconds_blocks": 2.7804766000008385,
+   "peak": 3773133,
+   "peak_merge": 13901505,
+   "index_bytes": 3947845
+  },
+  {
+   "algo": "spimi",
+   "limit": 2097152,
+   "blocks": 9,
+   "block_bytes": 4500606,
+   "seconds": 4.3291027000013855,
+   "seconds_blocks": 2.7776931000007608,
+   "peak": 5390904,
+   "peak_merge": 14838889,
+   "index_bytes": 3947845
+  },
+  {
+   "algo": "bsbi",
+   "limit": 262144,
+   "blocks": 45,
+   "block_bytes": 5541137,
+   "seconds": 7.6801114000008965,
+   "seconds_blocks": 5.304843900001288,
+   "peak": 7594760,
+   "peak_merge": 16634916,
+   "index_bytes": 3947845
+  },
+  {
+   "algo": "bsbi",
+   "limit": 524288,
+   "blocks": 23,
+   "block_bytes": 5030301,
+   "seconds": 7.152016000000003,
+   "seconds_blocks": 5.349864899999375,
+   "peak": 9657567,
+   "peak_merge": 16111164,
+   "index_bytes": 3947845
+  },
+  {
+   "algo": "bsbi",
+   "limit": 1048576,
+   "blocks": 12,
+   "block_bytes": 4629965,
+   "seconds": 6.717961099999229,
+   "seconds_blocks": 5.080355599999166,
+   "peak": 13643606,
+   "peak_merge": 15782001,
+   "index_bytes": 3947845
+  },
+  {
+   "algo": "bsbi",
+   "limit": 2097152,
+   "blocks": 6,
+   "block_bytes": 4325928,
+   "seconds": 6.7852347000007285,
+   "seconds_blocks": 5.354463200001192,
+   "peak": 20951962,
+   "peak_merge": 16611363,
+   "index_bytes": 3947845
+  }
+ ],
+ "shards": [
+  {
+   "algo": "spimi",
+   "shards": 1,
+   "seconds": 5.742185900002369,
+   "seconds_shards": 4.389701000000059,
+   "blocks": 9
+  },
+  {
+   "algo": "spimi",
+   "shards": 2,
+   "seconds": 5.717527300002985,
+   "seconds_shards": 4.279424899999867,
+   "blocks": 10
+  },
+  {
+   "algo": "spimi",
+   "shards": 4,
+   "seconds": 4.981955600000219,
+   "seconds_shards": 3.276645500001905,
+   "blocks": 12
+  },
+  {
+   "algo": "bsbi",
+   "shards": 1,
+   "seconds": 7.779914400001871,
+   "seconds_shards": 6.540583400001196,
+   "blocks": 6
+  },
+  {
+   "algo": "bsbi",
+   "shards": 2,
+   "seconds": 6.867110999999568,
+   "seconds_shards": 5.43423139999868,
+   "blocks": 6
+  },
+  {
+   "algo": "bsbi",
+   "shards": 4,
+   "seconds": 5.515056799999002,
+   "seconds_shards": 4.010523599998123,
+   "blocks": 8
+  }
+ ],
+ "nproc": 16,
+ "compress": {
+  "all": {
+   "unc": 3289332,
+   "gaps": 865931,
+   "vbyte": 982728,
+   "gamma": 901746,
+   "n": 30952,
+   "postings": 822333
+  },
+  "top100": {
+   "unc": 1034908,
+   "gaps": 186797,
+   "vbyte": 258737,
+   "gamma": 108335,
+   "n": 100,
+   "postings": 258727
+  },
+  "rare10000": {
+   "unc": 40000,
+   "gaps": 19703,
+   "vbyte": 19851,
+   "gamma": 35774,
+   "n": 10000,
+   "postings": 10000
+  },
+  "rare_maxdf": 1,
+  "top_terms": [
+   "of",
+   "the",
+   "to",
+   "said",
+   "and",
+   "in",
+   "a",
+   "for"
+  ]
+ },
+ "vocab": {
+  "tokens": 1468154,
+  "types": 30952,
+  "heaps": {
+   "k": 26.994141809660277,
+   "b": 0.49817674912639404,
+   "r2": 0.9967805245618713
+  },
+  "zipf_all": {
+   "s": 1.5820192314346166,
+   "c": 10893959.293059144,
+   "r2": 0.9733103501178278
+  },
+  "zipf_1000": {
+   "s": 0.9474841443639068,
+   "c": 144573.52521156566,
+   "r2": 0.9959388681358392
+  },
+  "cf_top": [
+   [
+    "the",
+    69277
+   ],
+   [
+    "of",
+    36779
+   ],
+   [
+    "to",
+    36400
+   ],
+   [
+    "in",
+    29253
+   ],
+   [
+    "and",
+    25648
+   ]
+  ]
+ },
+ "tuning": {
+  "grid": [
+   {
+    "index": "stem",
+    "sub": true,
+    "gt": 0.1,
+    "MAP": 0.5593242712464583,
+    "P10": 0.7324999999999999
+   },
+   {
+    "index": "stem_stop",
+    "sub": true,
+    "gt": 0.1,
+    "MAP": 0.5561617996701765,
+    "P10": 0.735
+   },
+   {
+    "index": "stem",
+    "sub": true,
+    "gt": 0.2,
+    "MAP": 0.549341463654853,
+    "P10": 0.7324999999999999
+   },
+   {
+    "index": "stem_stop",
+    "sub": true,
+    "gt": 0.2,
+    "MAP": 0.5464066579536043,
+    "P10": 0.7275
+   },
+   {
+    "index": "stem",
+    "sub": true,
+    "gt": 0.3,
+    "MAP": 0.5311477366438582,
+    "P10": 0.7175
+   },
+   {
+    "index": "stem_stop",
+    "sub": true,
+    "gt": 0.3,
+    "MAP": 0.5294895199772652,
+    "P10": 0.72
+   },
+   {
+    "index": "stem",
+    "sub": false,
+    "gt": 0.2,
+    "MAP": 0.528923526410809,
+    "P10": 0.7224999999999999
+   },
+   {
+    "index": "stem",
+    "sub": false,
+    "gt": 0.1,
+    "MAP": 0.5277699387819934,
+    "P10": 0.7374999999999999
+   }
+  ],
+  "n": 24,
+  "best": {
+   "index": "stem",
+   "sub": true,
+   "gt": 0.1,
+   "MAP": 0.5593242712464583,
+   "P10": 0.7324999999999999
+  },
+  "zones_off_train_MAP": 0.5625499007086912
+ },
+ "rank": {
+  "train": {
+   "Boolean AND": {
+    "MAP": 0.07724735627167509,
+    "P10": 0.37,
+    "NDCG10": 0.41444750122507157,
+    "PR": [
+     0.673672969187675,
+     0.262070405085111,
+     0.15114920884741856,
+     0.08257575757575758,
+     0.025,
+     0.025,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "Boolean OR (docID order)": {
+    "MAP": 0.022058369563666802,
+    "P10": 0.039999999999999994,
+    "NDCG10": 0.02851415753029627,
+    "PR": [
+     0.1546547882287756,
+     0.030597873977048023,
+     0.02390699324319474,
+     0.021695166260666,
+     0.02150330936399271,
+     0.020991730111694563,
+     0.020389169827047474,
+     0.020140723874483436,
+     0.019736300836166194,
+     0.019412191843775885,
+     0.018731053844807815
+    ]
+   },
+   "Raw-tf cosine baseline": {
+    "MAP": 0.32510549258573007,
+    "P10": 0.5825,
+    "NDCG10": 0.5080285971709888,
+    "PR": [
+     0.8397186622814352,
+     0.6623972298327322,
+     0.5624177987114277,
+     0.4566789498109224,
+     0.36851038290815985,
+     0.2910828631648099,
+     0.21756943310925955,
+     0.16326456533734346,
+     0.12134436574569149,
+     0.07041457777374896,
+     0.028031837102609557
+    ]
+   },
+   "Best (zoned tf-idf)": {
+    "MAP": 0.5593242712464583,
+    "P10": 0.7324999999999999,
+    "NDCG10": 0.6246895021891707,
+    "PR": [
+     0.9169592407743495,
+     0.8147292857197768,
+     0.750613988399256,
+     0.696101325728968,
+     0.6645156773151861,
+     0.6068350479542346,
+     0.5561024770648768,
+     0.47031453782521504,
+     0.38191573715772925,
+     0.24906439420575302,
+     0.10289905412087672
+    ]
+   }
+  },
+  "test": {
+   "Boolean AND": {
+    "MAP": 0.08299301232424465,
+    "P10": 0.2975,
+    "NDCG10": 0.34833724676274996,
+    "PR": [
+     0.6218055555555556,
+     0.35813322191681657,
+     0.1551628174326384,
+     0.0864349370848422,
+     0.01,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "Boolean OR (docID order)": {
+    "MAP": 0.015494890521835053,
+    "P10": 0.015000000000000003,
+    "NDCG10": 0.008393419281670759,
+    "PR": [
+     0.05187148562956438,
+     0.022478263118971886,
+     0.020250559750481987,
+     0.017878058860877604,
+     0.01685092162010775,
+     0.015322574947524597,
+     0.014892375017294079,
+     0.014387749218739778,
+     0.014215601365787455,
+     0.013840812384695016,
+     0.010665643582036973
+    ]
+   },
+   "Raw-tf cosine baseline": {
+    "MAP": 0.2505387305058478,
+    "P10": 0.4175000000000001,
+    "NDCG10": 0.3635001715572033,
+    "PR": [
+     0.6911691990239442,
+     0.4963223888168778,
+     0.4166800030579633,
+     0.34212736862192095,
+     0.2675761157432405,
+     0.22913893902828927,
+     0.18100281646247443,
+     0.14495050362140205,
+     0.1047232978970671,
+     0.05173037760714718,
+     0.019595168069891145
+    ]
+   },
+   "Best (zoned tf-idf)": {
+    "MAP": 0.49877538449104425,
+    "P10": 0.6325000000000001,
+    "NDCG10": 0.5210620049345956,
+    "PR": [
+     0.839258658008658,
+     0.7557849848738293,
+     0.7239995166202955,
+     0.6830698256037465,
+     0.6082825385640064,
+     0.5656109663278281,
+     0.47294661988623793,
+     0.37529881829569856,
+     0.29919504361537197,
+     0.2034077582273915,
+     0.07615967469554419
+    ]
+   }
+  },
+  "p_best_vs_base": 8.937111833597319e-12
+ },
+ "best_cfg": {
+  "index": "stem",
+  "sub": true,
+  "idf": true,
+  "norm": true,
+  "zones": true,
+  "gt": 0.1
+ },
+ "ablation": {
+  "rows": [
+   {
+    "name": "stemming off",
+    "MAP": 0.47251170230559597,
+    "dMAP": -0.026263682185448278,
+    "p_t": 0.029502112147385354,
+    "p_w": 0.017157761747512268,
+    "P10": 0.635,
+    "NDCG10": 0.5040134793102969
+   },
+   {
+    "name": "stop words off",
+    "MAP": 0.49877538449104425,
+    "dMAP": 0.0,
+    "p_t": 1.0,
+    "p_w": 1.0,
+    "P10": 0.6325000000000001,
+    "NDCG10": 0.5210620049345956
+   },
+   {
+    "name": "idf off",
+    "MAP": 0.37635338857715533,
+    "dMAP": -0.12242199591388891,
+    "p_t": 7.911883682162643e-08,
+    "p_w": 5.029505700804293e-09,
+    "P10": 0.5325,
+    "NDCG10": 0.4413698851649895
+   },
+   {
+    "name": "length normalisation off",
+    "MAP": 0.4624273577628662,
+    "dMAP": -0.03634802672817805,
+    "p_t": 0.24680440026356457,
+    "p_w": 0.6558992899281293,
+    "P10": 0.5875,
+    "NDCG10": 0.6075109847473584
+   },
+   {
+    "name": "zone weighting off",
+    "MAP": 0.5121894200336715,
+    "dMAP": 0.013414035542627267,
+    "p_t": 0.0024429338564590365,
+    "p_w": 0.0007553515715699177,
+    "P10": 0.63,
+    "NDCG10": 0.5193790195113465
+   },
+   {
+    "name": "stop words ON (not chosen by tuning)",
+    "MAP": 0.49577241814034884,
+    "dMAP": -0.003002966350695413,
+    "p_t": 0.18372105925191676,
+    "p_w": 0.34265120100120583,
+    "P10": 0.625,
+    "NDCG10": 0.515181419069257
+   }
+  ],
+  "best_MAP": 0.49877538449104425
+ },
+ "efficiency": {
+  "rows": [
+   {
+    "name": "exhaustive (all postings of query terms)",
+    "overlap": 1.0,
+    "scored": 6130.8125,
+    "ms": 0.972481249982593
+   },
+   {
+    "name": "champion lists r=10",
+    "overlap": 0.31,
+    "scored": 46.0125,
+    "ms": 0.252076249989841
+   },
+   {
+    "name": "champion lists r=25",
+    "overlap": 0.52125,
+    "scored": 109.8875,
+    "ms": 0.28927500002282613
+   },
+   {
+    "name": "champion lists r=50",
+    "overlap": 0.7075,
+    "scored": 207.8375,
+    "ms": 0.34845749996748054
+   },
+   {
+    "name": "champion lists r=100",
+    "overlap": 0.8575000000000002,
+    "scored": 380.2625,
+    "ms": 0.4358587500064459
+   },
+   {
+    "name": "index elimination idf>=0.3*max",
+    "overlap": 0.9375,
+    "scored": 1863.7125,
+    "ms": 0.4185512500043842
+   },
+   {
+    "name": "index elimination idf>=0.5*max",
+    "overlap": 0.79375,
+    "scored": 868.225,
+    "ms": 0.2708912499656435
+   },
+   {
+    "name": "index elimination idf>=0.7*max",
+    "overlap": 0.655,
+    "scored": 499.9875,
+    "ms": 0.20746000000144704
+   }
+  ],
+  "ndocs": 10788
+ },
+ "rank_seconds": 21.653341100001853
+}
