@@ -30,6 +30,23 @@ The on-disk dictionary is front-coded. Postings store document-ID gaps and varia
 
 The search engine supports Boolean operators, parentheses, quoted phrases, proximity queries, wildcards through a permuterm index, and spelling suggestions using character n-gram candidates and edit distance. Ranked retrieval uses cosine-style tf-idf weights with separate title and body zones. It accumulates candidates from query-term postings rather than scoring every document exhaustively. Champion lists and index elimination are also evaluated as pruning techniques.
 
+### 1.4 Design choices and why
+
+| Decision | Choice | Justification |
+|---|---|---|
+| Block-based construction | SPIMI by default; BSBI built for comparison | SPIMI works directly with terms, so it needs no vocabulary pre-pass and no global sort of (term, doc, position) records. The measurements in section 5 confirm it is faster and uses less memory at every limit. |
+| Parallelism | Four contiguous docID ranges, one process each, then a merge | Contiguous ranges keep docIDs increasing, so merging shard indexes is concatenation of posting lists with no renumbering. |
+| Updates | In-memory delta segment (persisted and replayed on open) plus tombstones | Adding a document costs a few milliseconds and a deletion is one set insertion, so the main index never needs a rebuild. Queries read main plus delta and drop tombstoned documents. |
+| Dictionary | Front-coded blocks of 16 terms with a sparse in-memory block index | Sorted terms share long prefixes, so front coding roughly halves the dictionary; lookup is a binary search over block heads plus a decode of one 16-term block. |
+| Postings | Gap-coded docIDs, variable-byte, with tf and position gaps in the same list | Byte-aligned coding decodes fast and is never worse than 1 byte per small value. Section 6 shows gamma wins on very frequent terms but loses on one-posting terms, so no single bit code is better everywhere. |
+| Positions | Stored for every posting | Required for exact phrase and proximity answers; the cost is 1.88x the plain index (section 4). |
+| Skip pointers | A skip every sqrt(df) postings for lists of 16 or more | sqrt(df) is the textbook default and is safe for lists of unequal length; section 4 shows a fixed spacing can beat it for particular pairs but none wins everywhere. |
+| Tokenizer | Lower-case runs of `[a-z0-9]`; stop words removed after positions are assigned | One definition for documents and queries; keeping original positions means stop-word removal does not distort phrase or proximity distances. |
+| Wildcards | Permuterm index | Handles a leading, trailing or inner `*`, and several `*`, by a prefix scan plus a regex filter, at the cost of storing every rotation of every term. |
+| Spelling | Bigram shortlist (Jaccard), then Damerau-Levenshtein distance, ties by frequency | The bigram index avoids comparing against all 30,952 terms; the Damerau distance counts a transposition as one error, which matches typing mistakes. |
+| Ranking | Cosine over tf-idf (1+log tf, idf) with title and body as separate zones | Matches the assignment, and the ablations in section 9 show idf is the most important component. Accumulators are filled only from query-term postings, so documents sharing no query term are never scored. |
+| Pruning | Champion lists and index elimination | Both are simple, need no index change beyond a precomputed list, and expose a clear overlap-versus-speed trade-off (section 8). |
+
 ## 2. Dataset and verification
 
 The corpus contains 10,788 documents, 1,468,154 analyzed token occurrences, and 30,952 distinct unstemmed terms. Each of the four built analysis indexes contains all 10,788 documents.
@@ -37,8 +54,7 @@ The corpus contains 10,788 documents, 1,468,154 analyzed token occurrences, and 
 | Check | Result |
 |---|---:|
 | Supplied Boolean queries | 10/10 passed |
-| Supplied queries labeled `phrase` (unquoted; implicit AND) | 7/7 passed |
-| Additional explicitly quoted phrase queries | 3/3 matched brute-force scan |
+| Supplied quoted-phrase queries (e.g. `"interest rates"`; contiguous match required) | 7/7 passed |
 | Supplied wildcard queries | 4/4 passed |
 | Supplied proximity queries | 4/4 passed |
 | **All supplied exact queries** | **25/25 passed** |
@@ -47,7 +63,7 @@ The corpus contains 10,788 documents, 1,468,154 analyzed token occurrences, and 
 | Phrase query over newly added document | Passed |
 | Deleted document excluded from results after reopening index | Passed |
 
-For an independent check, the exact stage tokenizes every lowercased corpus document and evaluates each query directly against those token lists without reading postings. The independent scan and indexed engine agreed on all 25 supplied queries, and both agreed with every expected document-ID set. The seven entries labeled `phrase` in the supplied TSV are unquoted two-word queries, so the supplied cases exercise implicit AND, not contiguous phrase matching. To verify actual contiguous phrase behavior, the exact stage also runs three explicit quoted queries against both the index and the scan: `"crude oil"` (231 documents), `"central bank"` (326), and `"bank of japan"` (126). These are recorded as `exact.quoted_phrase_checks` in `results.json`; all three matched.
+For an independent check, the exact stage tokenizes every lowercased corpus document and evaluates each query directly against those token lists without reading postings. The independent scan and indexed engine agreed on all 25 supplied queries, and both agreed with every expected document-ID set. The seven supplied phrase queries are quoted (for example `"interest rates"` must return the 239 documents where the two words are adjacent, not the 289 that merely contain both), so they exercise true contiguous phrase matching. They passed against the expected sets and against the independent scan. As an additional spot check, the exact stage re-runs `"crude oil"` (231 documents), `"central bank"` (326) and `"bank of japan"` (126) against the scan, recorded as `exact.quoted_phrase_checks` in `results.json`; all matched.
 
 For spelling, all 60 misspelled inputs were out of vocabulary. Top-1 accuracy was 50/50 (100%) for one-typo terms and 9/10 (90%) for two-typo terms, giving 59/60 overall (98.3%). Top-3 accuracy was 50/50 and 10/10 respectively, or 60/60 overall. The sole top-1 miss was `prokkects`: `prospects` ranked first and the accepted correction `projects` ranked second. The assignment requires suggestions for out-of-vocabulary terms, not perfect top-1 accuracy; these observed accuracy figures are reported without claiming perfection.
 
@@ -96,6 +112,14 @@ Across these pairs, spacing 16 gave the fewest total comparisons, a 46.1% reduct
 
 The dictionary is excluded from this positional-versus-plain postings comparison.
 
+| Dictionary (30,952 terms) | Bytes |
+|---|---:|
+| Plain (term text, terminator, 4-byte df, 4-byte pointer) | 488,374 |
+| Front-coded in blocks of 16 | 221,938 |
+| Reduction | 54.6% (2.20x smaller) |
+
+The final index is therefore 3,725,907 bytes of positional postings plus 221,938 bytes of dictionary, about 3.9 MB for 8 MB of text.
+
 ## 5. Index construction
 
 The memory limit is the configured block-buffer limit. `Block bytes` is the total serialized partial-index data written. Peak block-building and peak merge memory are separately reported by Python's `tracemalloc`; they are not the configured buffer size and can exceed it. Times are one machine's measurements and should be treated as indicative rather than universal.
@@ -134,7 +158,7 @@ The following sizes are postings-only estimates over document-ID lists. “Uncom
 | 100 most frequent | 100 | 1,034,908 | 186,797 | 5.54× | 258,737 | 4.00× | 108,335 | 9.55× |
 | Rarest 10,000 | 10,000 | 40,000 | 19,703 | 2.03× | 19,851 | 2.02× | 35,774 | 1.12× |
 
-Gamma coding performed best for the frequent-term sample, while the rare-term sample's small gaps generally favored fixed-width gap packing or variable-byte coding. No single encoding was best for every frequency group.
+Gamma coding performed best for the 100 most frequent terms (9.55x), where the gaps are tiny and gamma spends only a few bits on each. The rarest 10,000 terms almost all have a single posting, so each list is one large docID rather than a run of small gaps: gamma needs about 27 bits for it and reaches only 1.12x, while fixed-width gaps (2.03x) and variable byte (2.02x) need two bytes. No single encoding was best for every frequency group; the index uses variable byte because it is byte-aligned and fast to decode.
 
 ## 7. Ranked retrieval
 
@@ -206,7 +230,8 @@ The selected configuration already has stop-word removal disabled, so disabling 
 2. The spelling checker achieved top-3 accuracy of 60/60, but top-1 accuracy was 59/60 overall.
 3. Construction, memory, and latency numbers depend on the Windows machine, Python build, process scheduling, and filesystem cache. Peak values are `tracemalloc` measurements and should not be read as total operating-system process memory.
 4. The corpus and textbook RCV1 reference are different datasets. The Heaps comparison is informative, not an exact reproduction target.
-5. The report gives generated measurements; design choices and implementation tradeoffs should be defended in the accompanying presentation or discussion.
+5. Deleted documents stay in the main index files as tombstones and added documents live in a delta segment replayed from `delta.jsonl` when the index is opened. There is no compaction step that folds the delta into the main index and drops tombstoned postings; this is acceptable for the assignment's no-rebuild requirement but would be needed for a long-running system.
+6. Exact queries (Boolean, phrase, proximity, wildcard) run on the unstemmed index, so they match surface forms; free-text ranking uses the stemmed index.
 
 ## 11. Reproducing the measurements
 
